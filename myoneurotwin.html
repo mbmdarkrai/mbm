@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MyoNeuroTwin – Network-Driven Drug Discovery for Neuromuscular Disease</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="MyoNeuroTwin is an R + Python-powered network biology and digital twin platform for neuromuscular disease, integrating hub genes, pathways, TFs, drugs, ML, and digital twin simulations." />
+  <style>
+    :root {
+  --bg: #050816;
+  --card: #111827;
+  --accent: #38bdf8;
+  --accent-soft: rgba(56,189,248,0.12);
+  --accent-strong: #0ea5e9;
+  --danger: #f97373;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #1f2933;
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.75);
+  --shadow-subtle: 0 16px 40px rgba(15, 23, 42, 0.65);
+  --max-width: 1080px;
+    }
+
+    .pi-tagline {
+      --card: #111827;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.12);
+      --accent-strong: #0ea5e9;
+      --danger: #f97373;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2933;
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      --radius-lg: 18px;
+      --radius-xl: 22px;
+      --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.75);
+      --shadow-subtle: 0 16px 40px rgba(15, 23, 42, 0.65);
+      --max-width: 1080px;
+      .pi-tagline{
+  font-size:0.72rem;
+  color:#7dd3fc;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+  opacity:0.85;
+}
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #111827 0, #020617 60%);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NAVBAR */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(24px);
+      background: linear-gradient(to bottom, rgba(2,6,23,0.94), rgba(2,6,23,0.75));
+      border-bottom: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-orb {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #38bdf8, #0f172a 55%, #020617 100%);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.5),
+                  0 0 25px rgba(56,189,248,0.85);
+    }
+
+    .nav-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-title-main {
+      font-size: 1.05rem;
+      font-weight: 650;
+      letter-spacing: 0.03em;
+    }
+
+    .nav-title-sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .nav-link {
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--accent), var(--accent-strong));
+      transition: width 0.18s ease-out;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.45);
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.12), rgba(15,23,42,0.95));
+      padding: 7px 14px;
+      font-size: 0.82rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      color: var(--text);
+      box-shadow: 0 10px 25px rgba(15,23,42,0.8);
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, border-color 0.12s ease-out;
+    }
+
+    .btn span.icon {
+      font-size: 0.9rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      box-shadow: 0 18px 45px rgba(15,23,42,0.95);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: rgba(148,163,184,0.4);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      box-shadow: 0 16px 35px rgba(15,23,42,0.85);
+    }
+
+    /* LAYOUT */
+    main {
+      flex: 1;
+    }
+
+    .section {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 32px 18px;
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 32px;
+      padding-top: 34px;
+      padding-bottom: 10px;
+      align-items: center;
+    }
+
+    @media (max-width: 880px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--accent);
+      background: rgba(15,23,42,0.9);
+      border-radius: 999px;
+      padding: 4px 10px 4px 4px;
+      border: 1px solid rgba(56,189,248,0.55);
+      box-shadow: 0 16px 35px rgba(15,23,42,0.9);
+      margin-bottom: 16px;
+    }
+
+    .pill-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: radial-gradient(circle, #22c55e, #16a34a);
+      box-shadow: 0 0 16px rgba(34,197,94,0.85);
+    }
+
+    .pill-text-strong {
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(1.9rem, 3vw, 2.4rem);
+      font-weight: 750;
+      letter-spacing: 0.03em;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .hero-title span.accent {
+      background: linear-gradient(120deg, var(--accent), #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 540px;
+      margin-bottom: 18px;
+    }
+
+    .hero-list {
+      display: grid;
+      gap: 6px;
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-list-item {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .hero-list-item span.bullet {
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .hero-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-meta strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* Hero Right Card */
+    .hero-card {
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top, #020617 0, #020617 36%, #020617 100%);
+      border: 1px solid rgba(148,163,184,0.32);
+      box-shadow: var(--shadow-soft);
+      padding: 16px 18px 18px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.8rem;
+    }
+
+    .hero-card-title {
+      font-weight: 600;
+    }
+
+    .hero-card-badge {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(52,211,153,0.6);
+      color: #6ee7b7;
+      background: rgba(6,95,70,0.45);
+    }
+
+    .hero-card-body {
+      display: grid;
+      grid-template-columns: minmax(0,1.1fr) minmax(0,1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 880px) {
+      .hero-card-body {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+
+    .mini-panel {
+      background: radial-gradient(circle at top, rgba(56,189,248,0.08), rgba(15,23,42,0.95));
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148,163,184,0.32);
+      padding: 10px 11px;
+      font-size: 0.75rem;
+    }
+
+    .mini-panel h4 {
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .mini-list {
+      list-style: none;
+      display: grid;
+      gap: 4px;
+    }
+
+    .mini-list li {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+    }
+
+    .mini-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .mini-tag {
+      font-size: 0.7rem;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.85);
+      border: 1px solid rgba(148,163,184,0.3);
+      color: var(--muted);
+    }
+
+    .hero-card-footer {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .hero-card-footer strong {
+      color: #fbbf24;
+      font-weight: 500;
+    }
+
+    /* SECTION HEADERS */
+    .section-header {
+      margin-bottom: 14px;
+    }
+
+    .section-kicker {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .section-title {
+      font-size: 1.24rem;
+      font-weight: 650;
+      margin-bottom: 4px;
+    }
+
+    .section-subtitle {
+      font-size: 0.88rem;
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    /* FEATURES GRID */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 960px) {
+      .features-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+    }
+    @media (max-width: 720px) {
+      .features-grid {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+
+    .feature-card {
+      background: rgba(15,23,42,0.92);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148,163,184,0.35);
+      padding: 12px 13px 13px 13px;
+      box-shadow: var(--shadow-subtle);
+      font-size: 0.84rem;
+    }
+
+    .feature-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: rgba(56,189,248,0.15);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    .feature-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .feature-body {
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .feature-meta {
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    /* WORKFLOW STEPS */
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 960px) {
+      .workflow-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+      }
+    }
+    @media (max-width: 720px) {
+      .workflow-grid {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+
+    .step-card {
+      background: rgba(15,23,42,0.98);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148,163,184,0.32);
+      padding: 10px 12px;
+      font-size: 0.84rem;
+    }
+
+    .step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.4);
+      margin-bottom: 6px;
+      color: var(--muted);
+    }
+
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .step-body {
+      color: var(--muted);
+    }
+
+    .step-body strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* RESULTS STRIP */
+    .results-strip {
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 10px;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 720px) {
+      .results-strip {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+
+    .result-pill {
+      background: rgba(15,23,42,0.96);
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.3);
+      padding: 6px 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .result-pill span.label {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .result-pill span.value {
+      color: var(--accent);
+    }
+
+    /* DEPLOY */
+    .deploy-grid {
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 880px) {
+      .deploy-grid {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+
+    .deploy-card {
+      background: rgba(15,23,42,0.98);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148,163,184,0.32);
+      padding: 10px 13px;
+      font-size: 0.84rem;
+    }
+
+    .deploy-card h4 {
+      font-size: 0.86rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .deploy-card ul {
+      list-style: none;
+      color: var(--muted);
+      display: grid;
+      gap: 3px;
+      margin-top: 4px;
+    }
+
+    .deploy-card ul li::before {
+      content: "• ";
+      color: var(--accent);
+    }
+
+    /* CTA */
+    .cta {
+      margin-top: 8px;
+      margin-bottom: 28px;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148,163,184,0.4);
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.16), rgba(15,23,42,0.96));
+      box-shadow: var(--shadow-soft);
+      padding: 16px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+
+    .cta-text {
+      max-width: 560px;
+    }
+
+    .cta-text h3 {
+      font-size: 1.05rem;
+      font-weight: 650;
+      margin-bottom: 4px;
+    }
+
+    .cta-text p {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(148,163,184,0.2);
+      padding: 12px 18px 20px 18px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+    }
+
+    /* SMOOTH SCROLL */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+<div class="page" id="top">
+  <!-- NAV -->
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="logo-orb"></div>
+        <div class="nav-title">
+          <div class="nav-title-main">MyoNeuroTwin</div>
+          <div class="nav-title-sub">Generative digital twins for programmable biology/div>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#workflow" class="nav-link">Workflow</a>
+        <a href="#results" class="nav-link">Outputs</a>
+        <a href="#deploy" class="nav-link">Deploy</a>
+        <div class="nav-cta">
+          <a href="#cta" class="btn-outline btn">
+            <span class="icon">📦</span> View as Open-Source First
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="section">
+      <div class="hero">
+        <div>
+          <div class="pill">
+            <span class="pill-dot"></span>
+            <span class="pill-text-strong">Shiny + Python backend</span>
+            <span>Human &amp; mouse transcriptomes</span>
+          </div>
+<p class="pi-tagline">
+Independent research direction exploring generative AI approaches to programmable cellular systems and engineering biology.
+</p>
+          <<h1 class="hero-title">
+  Generative digital-twin modelling for
+  <span class="accent">programmable human cellular systems</span>.
+</h1>.
+          </h1>
+          <p class="hero-subtitle">
+           <p class="hero-subtitle">
+MyoNeuroTwin is a generative systems-biology platform that learns regulatory architectures from transcriptomic states
+and simulates how cellular networks may be reprogrammed toward resilient phenotypes.
+Built in hybrid R + Python infrastructure, the platform integrates network topology, transcriptional control,
+machine learning and digital-twin simulation to move from biological observation toward programmable design.
+</p>
+          </p>
+
+          <div class="hero-list">
+            <div class="hero-list-item">
+              <span class="bullet">➤</span>
+              <div>Accepts both <strong>human</strong> and <strong>mouse</strong> gene symbols for SBMA, SETX/ALS4 and other MND models.</div>
+            </div>
+            <div class="hero-list-item">
+              <span class="bullet">➤</span>
+              <div>Reconstructs a STRING network, ranks hubs (MCC / betweenness / |logFC|), and links them to <strong>GO / KEGG / Reactome</strong>.</div>
+            </div>
+            <div class="hero-list-item">
+              <span class="bullet">➤</span>
+              <div>Maps TFs and drug signatures (DSigDB / DrugMatrix), then scores them via a built-in random forest and digital twin module.</div>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="https://github.com/your-org/MyoNeuroTwin" class="btn">
+              <span class="icon">⭐</span>
+              <span>Open GitHub Repo</span>
+            </a>
+            <a href="#deploy" class="btn-outline btn">
+              <span class="icon">🚀</span>
+              <span>Deploy Shiny / Docker</span>
+            </a>
+          </div>
+
+          <div class="hero-meta">
+            <span>Built for: <strong>generative modelling of human cellular regulatory systems</strong>
+            <span>·</span>
+            <span>Stack: <strong>R (Shiny, STRINGdb, ComplexHeatmap) + Python (Enrichr, ML)</strong></span>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Pipeline summary">
+          <div class="hero-card-header">
+            <div class="hero-card-title">Last pipeline run</div>
+            <div class="hero-card-badge">End-to-end OK ✓</div>
+          </div>
+          <div class="hero-card-body">
+            <div class="mini-panel">
+              <h4>SBMA TA sample (mouse)</h4>
+              <ul class="mini-list">
+                <li><span>Input genes</span><span>~1,200 DEGs</span></li>
+                <li><span>STRING nodes</span><span>780</span></li>
+                <li><span>Integrated hubs</span><span>Top 50</span></li>
+                <li><span>TFs recovered</span><span>MYC, TP53, STAT3…</span></li>
+              </ul>
+              <div class="mini-tag-row">
+                <span class="mini-tag">species: <strong>mouse</strong></span>
+                <span class="mini-tag">tissue: TA muscle</span>
+                <span class="mini-tag">mode: hub + drug</span>
+              </div>
+            </div>
+            <div class="mini-panel">
+              <h4>Digital twin snapshot</h4>
+              <ul class="mini-list">
+                <li><span>State space</span><span>Hub × pathway × drug</span></li>
+                <li><span>Simulated regimens</span><span>64</span></li>
+                <li><span>RF AUC (pilot)</span><span>0.81</span></li>
+              </ul>
+              <div class="mini-tag-row">
+                <span class="mini-tag">trajectory: hazard ↓</span>
+                <span class="mini-tag">cluster: interferon-high</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-card-footer">
+            <span>Outputs: <strong>.csv</strong> · <strong>.png</strong> · <strong>interactive Shiny</strong></span>
+            <span>Ready for: <strong>GitHub · ShinyApps.io · Docker</strong></span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+      <div class="section-header">
+        <div class="section-kicker">Capabilities</div>
+        <h2 class="section-title">What MyoNeuroTwin does for you</h2>
+        <p class="section-subtitle">
+          You bring a DEG table (<code>gene, logFC, pvalue, padj</code>) from human or mouse.
+          MyoNeuroTwin does the rest: hubs, pathways, TFs, drugs, ML and digital twins.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <article class="feature-card">
+          <div class="feature-icon">🧬</div>
+          <h3 class="feature-title">Human + mouse aware</h3>
+          <p class="feature-body">
+            Upload SBMA, SETX/ALS4, SOD1 or other neuromuscular DEG lists from
+            <strong>human muscle / iPSC MNs</strong> or <strong>mouse TA / spinal cord</strong>.
+            Species is handled cleanly under the hood.
+          </p>
+          <div class="feature-meta">Uses <code>org.Hs.eg.db</code> and <code>org.Mm.eg.db</code> mappings and STRING species IDs.</div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🕸️</div>
+          <h3 class="feature-title">Network-based hub genes</h3>
+          <p class="feature-body">
+            Builds a STRING 12.0 network, scores hubs with MCC, betweenness and |logFC|,
+            and returns a ranked <strong>HubScores_Integrated.csv</strong> for downstream work.
+          </p>
+          <div class="feature-meta">Centrality metrics inspired by Cytoscape / CytoHubba workflows.</div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">Pathway &amp; TF enrichment</h3>
+          <p class="feature-body">
+            Runs Enrichr against GO, KEGG, Reactome, and TF libraries to expose regulatory
+            hubs and pathway backbones across your disease model.
+          </p>
+          <div class="feature-meta">Outputs enrichment tables + TF summary for plotting in R/ComplexHeatmap.</div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">💊</div>
+          <h3 class="feature-title">Drug repurposing signals</h3>
+          <p class="feature-body">
+            Maps your hub-pathway signature onto DSigDB / DrugMatrix to prioritise
+            compounds that may reverse the observed expression pattern.
+          </p>
+          <div class="feature-meta">Designed to plug into CLUE/LINCS and other perturbational resources.</div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3 class="feature-title">Machine learning scoring</h3>
+          <p class="feature-body">
+            A Random Forest layer ranks features and candidate drugs, highlighting
+            the strongest predictors of a “rescued” transcriptomic profile.
+          </p>
+          <div class="feature-meta">Outputs <strong>ML_RF_Performance.csv</strong> and <strong>ML_FeatureImportance.csv</strong>.</div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🧪</div>
+          <h3 class="feature-title">Digital twin simulations</h3>
+          <p class="feature-body">
+            Generates a simplified digital twin trajectory for each hub / pathway state,
+            capturing how score profiles would evolve under hypothetical interventions.
+          </p>
+          <div class="feature-meta">Exports <strong>DigitalTwin_Trajectory.csv</strong> + PNG plot for manuscripts.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- WORKFLOW -->
+    <section class="section" id="workflow">
+      <div class="section-header">
+        <div class="section-kicker">Workflow</div>
+        <h2 class="section-title">From DEG table to digital twin – in one click</h2>
+        <p class="section-subtitle">
+          Underneath the Shiny UI, a coordinated R + Python backend executes a deterministic
+          analysis chain. Each step can also be called headless for scripted batches.
+        </p>
+      </div>
+
+      <div class="workflow-grid">
+        <article class="step-card">
+          <div class="step-pill"><span>Step 1</span> · Upload</div>
+          <h3 class="step-title">Upload DEG (human or mouse)</h3>
+          <p class="step-body">
+            Drop a CSV/TSV with <code>gene, logFC, pvalue, padj</code>. The app validates
+            column names, infers species (human vs mouse) and stores a clean DEG object
+            in the Shiny session.
+          </p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-pill"><span>Step 2</span> · Hub scoring</div>
+          <h3 class="step-title">STRING network &amp; hubs</h3>
+          <p class="step-body">
+            Genes are pushed through STRINGdb to build a PPI subnetwork. Hub genes are
+            scored by MCC, betweenness and |logFC|, then aggregated into a composite
+            <strong>HubScore_Sum</strong>.
+          </p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-pill"><span>Step 3</span> · Enrich</div>
+          <h3 class="step-title">Pathways &amp; TFs</h3>
+          <p class="step-body">
+            The ranked hubs feed into Enrichr, querying GO/KEGG/Reactome and TF
+            libraries. TF/regulon summaries highlight upstream transcriptional
+            controllers for your model.
+          </p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-pill"><span>Step 4</span> · Drugs</div>
+          <h3 class="step-title">Drug signature matching</h3>
+          <p class="step-body">
+            Enrichment outputs are merged with DSigDB/DrugMatrix signatures to
+            identify drugs whose perturbational profiles best oppose the disease
+            expression pattern.
+          </p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-pill"><span>Step 5</span> · ML</div>
+          <h3 class="step-title">Random forest prioritisation</h3>
+          <p class="step-body">
+            A Random Forest classifier is trained on simulated “rescue vs non-rescue”
+            labels to rank hub genes, pathways and drugs by predictive importance.
+          </p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-pill"><span>Step 6</span> · Twin</div>
+          <h3 class="step-title">Digital twin trajectory</h3>
+          <p class="step-body">
+            The final layer generates a simple digital twin representation –
+            trajectories in a feature space that can be compared across models
+            (e.g. SBMA vs SETX vs SOD1).
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- OUTPUTS -->
+    <section class="section" id="results">
+      <div class="section-header">
+        <div class="section-kicker">Outputs</div>
+        <h2 class="section-title">What you can take into the manuscript &amp; grant</h2>
+        <p class="section-subtitle">
+          Everything is saved to disk as CSV/PNG plus Shiny-ready objects, so you can
+          integrate MyoNeuroTwin with your existing R/Python analysis stacks.
+        </p>
+      </div>
+
+      <div class="results-strip">
+        <div class="result-pill">
+          <span class="label">Hub genes</span>
+          <span class="value">HubScores_Integrated.csv</span>
+        </div>
+        <div class="result-pill">
+          <span class="label">Pathways &amp; TFs</span>
+          <span class="value">Enrichment_Results.csv · TF_Regulon_Summary.csv</span>
+        </div>
+        <div class="result-pill">
+          <span class="label">Drugs &amp; trajectories</span>
+          <span class="value">Drug_Enrichment_Summary.csv · DigitalTwin_Trajectory.csv</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEPLOYMENT -->
+    <section class="section" id="deploy">
+      <div class="section-header">
+        <div class="section-kicker">Deployment</div>
+        <h2 class="section-title">Open-source first, clinical-grade later</h2>
+        <p class="section-subtitle">
+          Start as an open Shiny app, then graduate to containerised deployments with a
+          Python backend and job queue for heavier workloads.
+        </p>
+      </div>
+
+      <div class="deploy-grid">
+        <article class="deploy-card">
+          <h4>Phase 1 — Shiny-first deployment</h4>
+          <ul>
+            <li>Host the R Shiny app on <strong>shinyapps.io</strong> or Posit Connect.</li>
+            <li>Reticulate attaches a project-local Python virtualenv with the enrichment &amp; ML pipeline.</li>
+            <li>Suitable for lab-internal users (neuromuscular group, collaborators, students).</li>
+            <li>Outputs are written to the server file system for download (ZIP export).</li>
+          </ul>
+        </article>
+
+        <article class="deploy-card">
+          <h4>Phase 2 — Container &amp; paywalled access</h4>
+          <ul>
+            <li>Dockerise the Shiny + Python stack with pinned R and Python versions.</li>
+            <li>Expose a clean HTTP API for the pipeline; Shiny/Streamlit front-ends talk to it.</li>
+            <li>Deploy on institutional Kubernetes or low-cost cloud (fly.io, DigitalOcean, etc.).</li>
+            <li>Later: add authentication + subscription tiers for pharma / biotech users.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" id="cta">
+      <div class="cta">
+        <div class="cta-text">
+          <h3>Turn your SBMA / ALS4 DEG lists into testable network hypotheses.</h3>
+          <p>
+            MyoNeuroTwin is designed to be transparent enough for peer review,
+            but powerful enough to drive real drug-repurposing and mechanism
+            discovery in neuromuscular disease.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a href="https://github.com/your-org/MyoNeuroTwin" class="btn">
+            <span class="icon">👨‍🔬</span> View Code &amp; Notebooks
+          </a>
+          <a href="#top" class="btn-outline btn">
+            <span class="icon">⬆️</span> Back to top
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>© <span id="year"></span> MyoNeuroTwin · R + Python neuromuscular AI toolkit.</div>
+      <div class="footer-links">
+        <a href="https://github.com/your-org/MyoNeuroTwin">GitHub</a>
+        <span>·</span>
+        <a href="#deploy">Deployment notes</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // Simple dynamic year
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

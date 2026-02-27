@@ -1,0 +1,637 @@
+<!-- =========================
+Clear & Inclusive™ Landing Page
+Save as: index.html
+(Uses embedded CSS, no external assets)
+========================== -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clear & Inclusive™ — Inclusive Language + EDI Evidence Builder</title>
+  <meta name="description" content="Scan and rewrite non-inclusive language, then generate grant-ready EDI evidence and audit-friendly exports. Fast, clear, defensible." />
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#0f1a33;
+      --panel2:#0c1630;
+      --text:#eaf0ff;
+      --muted:#b9c6e6;
+      --muted2:#8ea1d6;
+      --brand:#6aa7ff;
+      --brand2:#8b5cf6;
+      --ok:#22c55e;
+      --warn:#fbbf24;
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius:18px;
+      --radius2:26px;
+      --max:1100px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(106,167,255,.22), transparent 55%),
+        radial-gradient(900px 700px at 90% 0%, rgba(139,92,246,.18), transparent 55%),
+        radial-gradient(900px 800px at 85% 95%, rgba(34,197,94,.10), transparent 55%),
+        var(--bg);
+      line-height:1.55;
+      letter-spacing:.1px;
+    }
+
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:24px}
+    .topbar{
+      position:sticky; top:0; z-index:40;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(11,18,32,.82), rgba(11,18,32,.52));
+      border-bottom:1px solid var(--border);
+    }
+    .topbar .wrap{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding:14px 24px;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.2px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius:12px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(255,255,255,.0) 55%),
+        linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 10px 22px rgba(106,167,255,.18);
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .nav{
+      display:flex; gap:16px; align-items:center; flex-wrap:wrap;
+      font-size:14px; color:var(--muted);
+    }
+    .nav a{
+      text-decoration:none; padding:8px 10px; border-radius:10px;
+      transition:.15s ease;
+    }
+    .nav a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .actions{display:flex; gap:10px; align-items:center}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:11px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      text-decoration:none;
+      font-weight:650;
+      font-size:14px;
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); background:rgba(255,255,255,.10); border-color:rgba(255,255,255,.18)}
+    .btn.primary{
+      border:none;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 14px 34px rgba(106,167,255,.20);
+    }
+    .btn.primary:hover{background: linear-gradient(135deg, #7ab3ff, #9a73ff)}
+    .btn.small{padding:9px 12px; font-size:13px}
+
+    /* HERO */
+    .hero{padding:54px 0 18px}
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:22px;
+      align-items:stretch;
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:99px;
+      background:linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 0 0 5px rgba(106,167,255,.12);
+    }
+    h1{
+      margin:14px 0 10px;
+      font-size: clamp(34px, 4.2vw, 54px);
+      line-height:1.08;
+      letter-spacing:-.6px;
+    }
+    .sub{
+      font-size:18px;
+      color:var(--muted);
+      max-width: 60ch;
+      margin: 0 0 18px;
+    }
+    .heroCtas{display:flex; gap:12px; flex-wrap:wrap; margin:18px 0 12px}
+    .note{
+      font-size:13px; color:var(--muted2);
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .note span{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .check{
+      width:16px; height:16px; border-radius:6px;
+      background: rgba(34,197,94,.18);
+      border:1px solid rgba(34,197,94,.35);
+      display:inline-flex; align-items:center; justify-content:center;
+      font-weight:900; color:var(--ok);
+      font-size:12px;
+    }
+
+    /* HERO CARD */
+    .card{
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardHeader{
+      padding:18px 18px 0;
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+    }
+    .pill{
+      font-size:12px; color:var(--muted);
+      padding:6px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+    }
+    .cardBody{padding:16px 18px 18px}
+    .miniTitle{font-weight:800; margin:0 0 10px}
+    .mini{
+      display:grid;
+      gap:12px;
+    }
+    .miniRow{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.14);
+      padding:12px 12px;
+    }
+    .miniRow small{color:var(--muted2); display:block; margin-bottom:6px}
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size:13px;
+      color:#e9efff;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .highlight{
+      color: #ffd89b;
+      background: rgba(251,191,36,.12);
+      border:1px solid rgba(251,191,36,.20);
+      padding:2px 6px; border-radius:8px;
+    }
+
+    /* SECTIONS */
+    section{padding:34px 0}
+    .sectionTitle{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .sectionTitle h2{margin:0; font-size:24px; letter-spacing:-.2px}
+    .sectionTitle p{margin:0; color:var(--muted); max-width:70ch}
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    .feature{
+      padding:16px;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+    }
+    .feature h3{margin:8px 0 8px; font-size:16px}
+    .feature p{margin:0; color:var(--muted); font-size:14px}
+    .icon{
+      width:40px; height:40px; border-radius:14px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900; color:var(--text);
+    }
+
+    /* WORKFLOW */
+    .steps{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+    .step{
+      padding:14px;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: rgba(15,26,51,.40);
+    }
+    .step .num{
+      width:30px; height:30px; border-radius:12px;
+      display:inline-flex; align-items:center; justify-content:center;
+      background: rgba(106,167,255,.12);
+      border:1px solid rgba(106,167,255,.22);
+      color:var(--brand);
+      font-weight:900;
+      margin-bottom:10px;
+    }
+    .step h4{margin:0 0 6px; font-size:15px}
+    .step p{margin:0; color:var(--muted); font-size:13.5px}
+
+    /* PRICING */
+    .pricing{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    .priceCard{
+      padding:18px;
+      border-radius: var(--radius2);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      position:relative;
+      overflow:hidden;
+    }
+    .priceCard.popular{
+      border-color: rgba(106,167,255,.35);
+      box-shadow: 0 18px 50px rgba(106,167,255,.18);
+      background: linear-gradient(180deg, rgba(106,167,255,.10), rgba(255,255,255,.04));
+    }
+    .badge{
+      position:absolute; top:14px; right:14px;
+      font-size:12px; font-weight:800;
+      padding:6px 10px; border-radius:999px;
+      background: rgba(106,167,255,.16);
+      border:1px solid rgba(106,167,255,.26);
+      color: #dbe9ff;
+    }
+    .tier{font-weight:900; font-size:16px; margin:0 0 6px}
+    .price{
+      font-size:34px; font-weight:950; letter-spacing:-.6px;
+      margin:0 0 4px;
+    }
+    .per{color:var(--muted2); font-size:13px; margin:0 0 12px}
+    .list{margin:0; padding-left:18px; color:var(--muted); font-size:14px}
+    .list li{margin:8px 0}
+    .priceActions{margin-top:14px; display:flex; gap:10px; flex-wrap:wrap}
+
+    /* FAQ */
+    details{
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.035);
+      padding:14px 14px;
+    }
+    details + details{margin-top:10px}
+    summary{
+      cursor:pointer;
+      font-weight:800;
+      list-style:none;
+    }
+    summary::-webkit-details-marker{display:none}
+    details p{color:var(--muted); margin:10px 0 0; font-size:14px}
+
+    /* FOOTER */
+    footer{
+      padding:26px 0 44px;
+      color:var(--muted2);
+      font-size:13px;
+      border-top:1px solid var(--border);
+      margin-top:20px;
+    }
+    .footerGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      align-items:start;
+    }
+    .fine{
+      max-width: 90ch;
+      line-height:1.6;
+    }
+    .links a{
+      display:inline-block;
+      color:var(--muted);
+      text-decoration:none;
+      padding:6px 10px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      margin:6px 6px 0 0;
+    }
+    .links a:hover{color:var(--text); border-color:rgba(255,255,255,.14); background:rgba(255,255,255,.06)}
+
+    /* RESPONSIVE */
+    @media (max-width: 980px){
+      .heroGrid{grid-template-columns: 1fr; }
+      .grid3{grid-template-columns: 1fr; }
+      .steps{grid-template-columns: 1fr 1fr; }
+      .pricing{grid-template-columns: 1fr; }
+      .footerGrid{grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px){
+      .nav{display:none}
+      .steps{grid-template-columns: 1fr; }
+      .hero{padding-top:36px}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div style="line-height:1.05">Clear & Inclusive™</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:650">Inclusive language + EDI evidence builder</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="actions">
+        <!-- Replace href with your actual product/demo links -->
+        <a class="btn small" href="#pricing">View pricing</a>
+        <a class="btn primary" href="https://gumroad.com/" target="_blank" rel="noopener">Get access</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="heroGrid">
+        <div>
+          <div class="kicker"><span class="dot"></span> Build inclusive text and defensible EDI evidence — fast</div>
+          <h1>Inclusive language.<br/>Reviewer-ready evidence.<br/>Zero guesswork.</h1>
+          <p class="sub">
+            Clear & Inclusive™ scans your text, explains risk, rewrites inclusively, and turns changes into
+            <strong>grant-ready</strong> and <strong>audit-friendly</strong> EDI evidence — without the corporate bloat.
+          </p>
+
+          <div class="heroCtas">
+            <a class="btn primary" href="https://gumroad.com/" target="_blank" rel="noopener">Get access on Gumroad</a>
+            <a class="btn" href="#workflow">See how it works</a>
+          </div>
+
+          <div class="note">
+            <span><span class="check">✓</span> No data storage</span>
+            <span><span class="check">✓</span> Exports: paragraph + evidence table</span>
+            <span><span class="check">✓</span> Consultant-friendly</span>
+          </div>
+        </div>
+
+        <!-- Right-side demo card -->
+        <aside class="card" aria-label="Example output preview">
+          <div class="cardHeader">
+            <div class="pill">Preview: rewrite + evidence</div>
+            <div class="pill">~60 seconds</div>
+          </div>
+          <div class="cardBody">
+            <p class="miniTitle">Example</p>
+            <div class="mini">
+              <div class="miniRow">
+                <small>Flagged phrase</small>
+                <div class="mono">“We’re looking for a <span class="highlight">rockstar</span> who can thrive under pressure.”</div>
+              </div>
+              <div class="miniRow">
+                <small>Suggested rewrite</small>
+                <div class="mono">“We’re looking for a motivated candidate who can work effectively in a supportive, fast-paced environment.”</div>
+              </div>
+              <div class="miniRow">
+                <small>Evidence log (auto-generated)</small>
+                <div class="mono">Change → Rationale → Intended impact → Measurement note</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section id="features">
+    <div class="wrap">
+      <div class="sectionTitle">
+        <h2>What you get</h2>
+        <p>Two tools in one: a language rewriter that explains bias risk, and an evidence builder that produces reviewer-friendly outputs.</p>
+      </div>
+
+      <div class="grid3">
+        <div class="feature">
+          <div class="icon">🔎</div>
+          <h3>Scan & flag risk</h3>
+          <p>Detect exclusionary terms, vague requirements, and signals that deter underrepresented groups — with plain-English explanations.</p>
+        </div>
+
+        <div class="feature">
+          <div class="icon">✍️</div>
+          <h3>Rewrite, not rewrite-everything</h3>
+          <p>Get clean alternatives that preserve intent while improving clarity, accessibility, and inclusivity.</p>
+        </div>
+
+        <div class="feature">
+          <div class="icon">📄</div>
+          <h3>Grant-ready outputs</h3>
+          <p>Generate an EDI paragraph tailored to reviewers, plus a structured evidence table you can reuse across submissions.</p>
+        </div>
+
+        <div class="feature">
+          <div class="icon">🧾</div>
+          <h3>Audit trail built-in</h3>
+          <p>Automatically logs what changed and why — so you can demonstrate intentionality without “hand-wavy” statements.</p>
+        </div>
+
+        <div class="feature">
+          <div class="icon">🧩</div>
+          <h3>Works across documents</h3>
+          <p>Job ads, promotion criteria, mentoring programmes, policies, grant sections — anywhere wording matters.</p>
+        </div>
+
+        <div class="feature">
+          <div class="icon">🔒</div>
+          <h3>Designed for trust</h3>
+          <p>No data storage by default. Keep your content yours. Clear disclaimers and sensible, non-ideological tone.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow -->
+  <section id="workflow">
+    <div class="wrap">
+      <div class="sectionTitle">
+        <h2>How it works</h2>
+        <p>A simple pipeline: language → explanation → evidence → export.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h4>Paste or upload</h4>
+          <p>Drop in your text (job ad, policy, grant section). Optional: add org context or audience.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h4>Scan & rewrite</h4>
+          <p>Flag risky phrases and get inclusive rewrites with short, usable explanations.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h4>Build evidence</h4>
+          <p>Convert changes into an evidence log: rationale, intended impact, and suggested metrics.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h4>Export</h4>
+          <p>Download a grant-ready paragraph + an audit-friendly evidence table (CSV/Doc-ready).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing">
+    <div class="wrap">
+      <div class="sectionTitle">
+        <h2>Pricing</h2>
+        <p>Start simple. Upgrade when you need organisational outputs. Replace these prices with your final tiers.</p>
+      </div>
+
+      <div class="pricing">
+        <div class="priceCard">
+          <p class="tier">Free</p>
+          <p class="price">£0</p>
+          <p class="per">Try it out</p>
+          <ul class="list">
+            <li>1 scan + preview output</li>
+            <li>Limited rewrites</li>
+            <li>No exports</li>
+          </ul>
+          <div class="priceActions">
+            <a class="btn" href="#faq">Read FAQ</a>
+          </div>
+        </div>
+
+        <div class="priceCard popular">
+          <div class="badge">Most popular</div>
+          <p class="tier">Individual</p>
+          <p class="price">£15</p>
+          <p class="per">per month</p>
+          <ul class="list">
+            <li>Unlimited scans</li>
+            <li>Rewrite + explanation</li>
+            <li>Export EDI paragraph</li>
+            <li>Export evidence table</li>
+          </ul>
+          <div class="priceActions">
+            <a class="btn primary" href="https://gumroad.com/" target="_blank" rel="noopener">Get Individual</a>
+            <a class="btn" href="#faq">Questions?</a>
+          </div>
+        </div>
+
+        <div class="priceCard">
+          <p class="tier">Organisation</p>
+          <p class="price">£49</p>
+          <p class="per">per month (from)</p>
+          <ul class="list">
+            <li>Team use + shared templates</li>
+            <li>Reusable evidence library</li>
+            <li>Org-style tone presets</li>
+            <li>Consultant-friendly exports</li>
+          </ul>
+          <div class="priceActions">
+            <a class="btn" href="mailto:hello@example.com">Contact sales</a>
+            <a class="btn primary" href="https://gumroad.com/" target="_blank" rel="noopener">Buy Org</a>
+          </div>
+        </div>
+      </div>
+
+      <p style="color:var(--muted2); margin-top:12px; font-size:13px;">
+        Tip: you can offer an “Early Access Lifetime” plan (£99–£149) on Gumroad for quick cashflow.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="sectionTitle">
+        <h2>FAQ</h2>
+        <p>Answer the objections upfront: data privacy, ideology, and what the tool is/isn’t.</p>
+      </div>
+
+      <details>
+        <summary>Is this just “woke rewriting”?</summary>
+        <p>No. It’s a clarity + risk tool. You keep intent, reduce ambiguity, and remove signals that deter qualified candidates. The tone stays professional and practical.</p>
+      </details>
+
+      <details>
+        <summary>Does it store my documents?</summary>
+        <p>By default: no. The product is designed around privacy-first operation. If you later add accounts, make storage opt-in and transparent.</p>
+      </details>
+
+      <details>
+        <summary>What can I use it on?</summary>
+        <p>Job adverts, promotion criteria, mentoring programme pages, grant EDI sections, policies, internal comms, training docs — anywhere language and evidence matter.</p>
+      </details>
+
+      <details>
+        <summary>Will this guarantee better funding outcomes?</summary>
+        <p>No tool can guarantee outcomes. This improves clarity and defensibility so reviewers can quickly understand your intent and evidence.</p>
+      </details>
+
+      <details>
+        <summary>Can consultants use this for clients?</summary>
+        <p>Yes — the exports are designed for consultant workflows. Consider a consultant license tier with white-label PDF exports.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="footerGrid">
+        <div class="fine">
+          <strong>Clear & Inclusive™</strong><br/>
+          A practical language + evidence tool. Not legal advice, not an HR system, and not a substitute for your organisation’s governance processes.
+          <br/><br/>
+          <span style="opacity:.9">Replace:</span> Gumroad links, email address, and pricing to match your offer.
+        </div>
+        <div class="links" aria-label="Footer links">
+          <a href="#features">Features</a>
+          <a href="#workflow">Workflow</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+          <a href="https://gumroad.com/" target="_blank" rel="noopener">Gumroad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
